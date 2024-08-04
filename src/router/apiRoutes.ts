@@ -4,11 +4,13 @@ import path from 'path'
 import util from 'util'
 
 export const ApiRoutes = (app: express.Application) => {
+  const prefix = '/api/v1'
+
   app.get('/', (req: Request, res: Response) => {
     res.send('Hello, TypeScript Express!')
   })
 
-  app.get('/cars', async (req: Request, res: Response) => {
+  app.get(prefix + '/cars', async (req: Request, res: Response) => {
     try {
       const data = await getJsonCar(req, res)
       res.json({ cars: data }).status(200)
