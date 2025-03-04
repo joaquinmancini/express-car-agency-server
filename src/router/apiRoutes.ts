@@ -12,15 +12,21 @@ export const ApiRoutes = (app: express.Application) => {
 
   app.get(prefix + '/cars', async (req: Request, res: Response) => {
     try {
+      //Caso prar tratar un body enviado desde el front
+      // const requestData = req.body;
+      // if (!requestData) {
+      //   res.status(404).json({ error: "Se debe enviar un body valido" }).send();
+      // }
       const data = await getJsonCar(req, res)
       res.json({ cars: data }).status(200)
     } catch (err) {
       console.error('Error handling /cars route:', err)
-      res.status(500).json({ error: 'Internal Server Error' })
+      res.status(500).json({ error: 'Internal Server Error' }).send()
     }
   })
 }
 
+//Metodo Interno
 const getJsonCar = async (req: Request, res: Response) => {
   try {
     const filePath = path.join(__dirname, '../autos.json')
