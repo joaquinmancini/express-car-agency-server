@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express'
 import fs from 'fs'
 import path from 'path'
 import util from 'util'
+import getAutos from '../mocks/autos'
 
 export const ApiRoutes = (app: express.Application) => {
   const prefix = '/api/v1'
@@ -18,6 +19,17 @@ export const ApiRoutes = (app: express.Application) => {
       //   res.status(404).json({ error: "Se debe enviar un body valido" }).send();
       // }
       const data = await getJsonCar(req, res)
+      res.json({ cars: data }).status(200)
+    } catch (err) {
+      console.error('Error handling /cars route:', err)
+      res.status(500).json({ error: 'Internal Server Error' }).send()
+    }
+  })
+
+  app.get(prefix + '/carsMock', async (req: Request, res: Response) => {
+    try {
+      const data = await getAutos()
+      console.log('DataMock', data)
       res.json({ cars: data }).status(200)
     } catch (err) {
       console.error('Error handling /cars route:', err)
